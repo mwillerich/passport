@@ -12,6 +12,9 @@ require 'rr'
 gem 'rack-test'
 require 'rack/test'
 
+TEST_DIR = File.dirname(__FILE__)
+LIB_DIR  = File.dirname(__FILE__) + '/../lib'
+
 require File.dirname(__FILE__) + '/dummy/database'
 require File.dirname(__FILE__) + '/../lib/passport' unless defined?(Passport)
 require File.dirname(__FILE__) + '/dummy/user'
@@ -29,39 +32,7 @@ unless defined?(::ActiveModel)
   end
 end
 
-Passport.config = {
-  :default => "twitter",
-  :connect => {
-    :twitter => {
-      :key => "app_key",
-      :secret => "app_secret",
-      :headers => {
-        "User-Agent" => "Safari",
-        "MyApp-Version" => "1.2"
-      },
-      :api_version => 1
-    },
-    :facebook => {
-      :key => "app_key",
-      :secret => "app_secret"
-    },
-    :foursquare => {
-      :key => "app_key",
-      :secret => "app_secret"
-    },
-    :google => {
-      :key => "app_key",
-      :secret => "app_secret"
-    },
-    :yahoo => {
-      :key => "app_key",
-      :secret => "app_secret"
-    },
-    :vimeo => {
-  
-    }
-  }
-}
+Passport.config = YAML.load_file("./test/config.yml")
 
 class ActiveSupport::TestCase
   include ActiveRecord::TestFixtures

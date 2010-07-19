@@ -208,6 +208,25 @@ module Passport
         end
         
       end
+      
+      context "All Oauth Tokens" do
+
+        should "all respond to #accces" do
+          #Dir.entries("#{LIB_DIR}/passport/oauth/tokens").each do |file|
+            #next unless File.extname(file) =~ /.rb/
+            #token_class = File.basename(file).gsub(/\.rb/, "").camelize.constantize
+          [TwitterToken, GoogleToken, FoursquareToken, LinkedInToken, MyspaceToken, VimeoToken, YahooToken].each do |token_class|
+            hash = token_class.access(
+              :oauth_verifier => @verifier,
+              :token => "a_token",
+              :secret => "a_secret",
+              :identify => false
+            )
+            assert_equal "a_token", hash[:token]
+            assert_equal "a_secret", hash[:secret]
+          end
+        end
+      end
     end
   end
 end

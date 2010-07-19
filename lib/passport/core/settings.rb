@@ -1,4 +1,6 @@
 module Passport
+  class SettingsError < StandardError; end
+    
   module Settings
     def self.included(base)
       base.extend ClassMethods
@@ -21,7 +23,11 @@ module Passport
       end
     
       def credentials(service)
-        key("#{KEY}.#{service.to_s}")
+        result = key("#{KEY}.#{service.to_s}")
+        unless result && result.has_key?(:key) && result.has_key?(:secret)
+          raise SettingsError.new("Please specify both a key and secret for ':#{service}'")
+        end
+        result
       end
       
       def services
