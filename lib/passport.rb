@@ -1,24 +1,28 @@
-require 'active_record'
 require "rubygems"
+require 'active_record'
 require 'oauth'
 require 'oauth2'
 
 this = File.dirname(__FILE__)
 library = "#{this}/passport"
+core = "#{library}/core"
 
-require "#{this}/open_id_authentication"
-require "#{library}/ext"
+require "#{core}/open_id_authentication"
+require "#{core}/rack-context"
+require "#{core}/ext"
+require "#{core}/settings"
+require "#{core}/context"
+require "#{core}/certification"
+require "#{core}/user"
+require "#{core}/mixin"
+require "#{core}/filter"
+# require "#{library}/openid"
 require "#{library}/passport"
-require "#{library}/callback_filter"
-require "#{library}/access_token"
-require "#{library}/openid"
 require "#{library}/oauth"
-require "#{library}/common"
-require "#{library}/engine" if defined?(Rails) && Rails::VERSION::MAJOR == 3
+require "#{core}/engine" if defined?(Rails) && Rails::VERSION::MAJOR == 3
 
-custom_models =   ["#{library}/access_token"]
-custom_models +=  Dir["#{library}/oauth/tokens"]
-custom_models +=  Dir["#{library}/openid/tokens"]
+custom_models = ["#{library}/oauth/access_token"] + Dir["#{library}/oauth/tokens"]
+#custom_models +=  Dir["#{library}/openid/tokens"]
 
 # Rails 3/2 config
 load_path_method = ActiveSupport::Dependencies.respond_to?(:autoload_paths) ? :autoload_paths : :load_paths

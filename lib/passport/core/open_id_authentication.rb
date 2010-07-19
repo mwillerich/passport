@@ -16,7 +16,7 @@ module OpenIdAuthentication
   def self.store
     @@store
   end
-
+  
   def self.store=(*store_option)
     store, *parameters = *([ store_option ].flatten)
 

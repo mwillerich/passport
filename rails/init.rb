@@ -1,4 +1,4 @@
-require "passport"
+require "authlogic-connect"
 
 # copied from open_id_authentication plugin on github
 
@@ -11,7 +11,7 @@ end
 require 'open_id_authentication'
 
 config.middleware.use OpenIdAuthentication
-config.middleware.use Passport::CallbackFilter
+config.middleware.use Passport::Filter
 
 config.after_initialize do
   OpenID::Util.logger = Rails.logger
