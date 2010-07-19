@@ -4,7 +4,7 @@ class MeetupToken < OauthToken
   
   key :user_id
 
-  settings "http://www.meetup.com/"
+  settings "http://www.meetup.com/",
     :request_token_path => "/oauth/request",
     :authorize_path     => "/authorize",
     :access_token_path  => "/oauth/access"

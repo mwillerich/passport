@@ -1,8 +1,7 @@
 class FoursquareToken < OauthToken
   
   key do |access_token|
-    body = JSON.parse(access_token.get("/user.json").body)
-    user_id = body['user']['id'].to_s
+    JSON.parse(access_token.get("/user.json").body)['user']['id']
   end
   
   settings "http://api.foursquare.com/:api_version",
