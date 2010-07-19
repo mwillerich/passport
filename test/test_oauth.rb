@@ -227,7 +227,8 @@ module Passport
             SoundcloudToken,
             YammerToken,
             BrightkiteToken,
-            EvernoteToken
+            EvernoteToken,
+            NetflixToken
           ].each do |token_class|
             # key must be defined, as a block, symbol, or string
             assert token_class.key

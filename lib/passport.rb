@@ -7,7 +7,7 @@ this = File.dirname(__FILE__)
 library = "#{this}/passport"
 core = "#{library}/core"
 
-require "#{core}/open_id_authentication"
+require "#{library}/openid/protocol"
 require "#{core}/rack-context"
 require "#{core}/ext"
 require "#{core}/settings"
