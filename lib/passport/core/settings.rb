@@ -11,9 +11,8 @@ module Passport
       
       attr_accessor :config
       
-      def config=(value)
-        value.recursively_symbolize_keys!
-        @config = value
+      def configure(value)
+        self.config = (value.is_a?(String) ? YAML.load_file(value) : value).recursively_symbolize_keys!
       end
       
       def key(path)
@@ -21,7 +20,7 @@ module Passport
         path.to_s.split(".").each { |node| result = result[node.to_sym] if result }
         result
       end
-    
+      
       def credentials(service)
         result = key("#{KEY}.#{service.to_s}")
         unless result && result.has_key?(:key) && result.has_key?(:secret)

@@ -1,5 +1,5 @@
 # http://github.com/soundcloud/oauth
-class SoundcloudToken < AccessToken
+class SoundcloudToken < OauthToken
 
   settings "http://api.soundcloud.com"
   

@@ -9,7 +9,7 @@ module Passport
       module ClassMethods
         def process(record)
           authorize_hash = token_class.authorize(callback_url)
-
+          
           session[:oauth_request_token]        = authorize_hash[:token]
           session[:oauth_request_token_secret] = authorize_hash[:secret]
           session[:auth_request_class]         = record.class.name

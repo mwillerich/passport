@@ -1,0 +1,3 @@
+class PlaxoToken < OauthToken
+  
+end

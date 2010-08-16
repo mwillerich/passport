@@ -1,5 +1,5 @@
 # http://platform.fatsecret.com/api/Default.aspx?screen=rapiauth
-class FatSecretToken < AccessToken
+class FatSecretToken < OauthToken
   
   settings "http://platform.fatsecret.com/rest/server.api"
   

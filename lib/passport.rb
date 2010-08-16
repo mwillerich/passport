@@ -16,12 +16,13 @@ require "#{core}/certification"
 require "#{core}/user"
 require "#{core}/mixin"
 require "#{core}/filter"
+require "#{core}/access_token"
 # require "#{library}/openid"
 require "#{library}/passport"
 require "#{library}/oauth"
 require "#{core}/engine" if defined?(Rails) && Rails::VERSION::MAJOR == 3
 
-custom_models = ["#{library}/oauth/access_token"] + Dir["#{library}/oauth/tokens"]
+custom_models = []#["#{library}/oauth/access_token"] + Dir["#{library}/oauth/tokens"]
 #custom_models +=  Dir["#{library}/openid/tokens"]
 
 # Rails 3/2 config

@@ -30,7 +30,7 @@ module Passport
       
       module InstanceMethods
         def access_token
-          @access_token ||= self.class.access_token(token, secret)
+          @access_token ||= self.class.access_token(token, secret, version)
           @access_token
         end
         

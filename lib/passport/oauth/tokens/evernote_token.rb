@@ -1,5 +1,5 @@
 # http://www.evernote.com/about/developer/api/evernote-api.htm
-class EvernoteToken < AccessToken
+class EvernoteToken < OauthToken
   
   settings "https://www.evernote.com",
     :request_token_path => "/oauth",

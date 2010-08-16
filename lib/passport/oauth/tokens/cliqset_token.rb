@@ -1,6 +1,6 @@
 # http://developer.cliqset.com/api#TOC-OAuth-2.0-Overview
 # http://developer.cliqset.com/api/user
-class CliqsetToken < AccessToken
+class CliqsetToken < OauthToken
   
   settings "https://secure.cliqset.com",
     :authorize_path     => "/oauth/v2/authorize",

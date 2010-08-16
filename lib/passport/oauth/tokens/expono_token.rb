@@ -1,4 +1,4 @@
-class ExponoToken < AccessToken
+class ExponoToken < OauthToken
   
   settings "http://www.expono.com",
     :request_token_path => "/go/oauth/request_token",

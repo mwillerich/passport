@@ -1,6 +1,6 @@
 # http://developers.freshbooks.com/api/oauth/
 # http://github.com/elucid/ruby-freshbooks
-class FreshbooksToken < AccessToken
+class FreshbooksToken < OauthToken
   
   # only PLAINTEXT is supported
   settings "https://sample.freshbooks.com",

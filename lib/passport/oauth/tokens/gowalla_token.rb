@@ -1,5 +1,5 @@
 # http://gowalla.com/api/docs/oauth
-class GowallaToken < AccessToken
+class GowallaToken < OauthToken
   
   version 2.0
   

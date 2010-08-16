@@ -16,9 +16,9 @@ module Passport
         # after the redirect.
         def authorize(callback_url, options = {})
           result = {}
-          
+
           if version == 1.0
-            options = {:scope => consumer_settings[:scope]} if consumer_settings[:scope]
+            options.reverse_merge!(:scope => consumer_settings[:scope]) if consumer_settings[:scope]
             request = consumer.get_request_token({:oauth_callback => callback_url}, options)
             result[:token] = request.token
             result[:secret] = request.secret
@@ -27,6 +27,7 @@ module Passport
             options.merge!(:redirect_uri => callback_url)
             result[:url] = consumer.web_server.authorize_url(options)
           end
+          
           result
         end
         
@@ -34,10 +35,10 @@ module Passport
         def access(options)
           if version == 1.0
             access_token = OAuth::RequestToken.new(consumer, options[:token], options[:secret]).get_access_token(:oauth_verifier => options[:oauth_verifier])
-            result = {:token => access_token.token, :secret => access_token.secret}
+            result = {:token => access_token.token.to_s, :secret => access_token.secret.to_s}
           else
             access_token = consumer.web_server.get_access_token(options[:secret], :redirect_uri => options[:callback_url])
-            result = {:token => access_token.token, :secret => secret}
+            result = {:token => access_token.token.to_s, :secret => options[:secret].to_s}
           end
           
           result[:key] = identify(access_token) unless options[:identify] == false

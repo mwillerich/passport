@@ -1,5 +1,5 @@
 # https://www.yammer.com/api_doc.html
-class YammerToken < AccessToken
+class YammerToken < OauthToken
 
   settings "https://www.yammer.com"
   

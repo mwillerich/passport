@@ -25,6 +25,16 @@ module Passport
       end
       alias complete approve
       
+      def authenticate(user)
+        if process?
+          process(user) # redirect to service
+        elsif approve?
+          approve(user)
+        else
+          nil
+        end
+      end
+      
       def protocol
         if Passport::Oauth::Protocol.active?
           Passport::Oauth::Protocol

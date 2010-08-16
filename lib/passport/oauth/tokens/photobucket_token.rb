@@ -1,5 +1,5 @@
 # https://login.photobucket.com/developer/register
-class PhotobucketToken < AccessToken
+class PhotobucketToken < OauthToken
   
   settings "http://api.photobucket.com",
     :request_token_path => "/login/request",

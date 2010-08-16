@@ -1,6 +1,6 @@
 # http://brightkite.com/me/developed_apps/new
 # http://brightkite.com/me.xml (or .json)
-class BrightkiteToken < AccessToken
+class BrightkiteToken < OauthToken
   
   settings "http://brightkite.com"
   
