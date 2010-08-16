@@ -32,7 +32,7 @@ unless defined?(::ActiveModel)
   end
 end
 
-Passport.config = YAML.load_file("./test/config.yml")
+Passport.configure("./test/config/tokens.yml")
 
 class ActiveSupport::TestCase
   include ActiveRecord::TestFixtures

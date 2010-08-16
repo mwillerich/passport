@@ -7,12 +7,26 @@ module Passport
     end
     
     module ClassMethods
-      KEY = "connect" unless defined?(KEY)
+      KEY = "services" unless defined?(KEY)
       
-      attr_accessor :config
+      attr_accessor :config, :adapter, :root
       
       def configure(value)
         self.config = (value.is_a?(String) ? YAML.load_file(value) : value).recursively_symbolize_keys!
+        self.config[:adapter] ||= "object"
+        self.adapter = config[:adapter]
+        
+        install
+        
+        self.config
+      end
+      
+      def adapter=(string)
+        valid_adapters = %w(object active_record mongo)
+        unless valid_adapters.include?(string)
+          raise SettingsError.new("Adapter can only be 'object', 'active_record', or 'mongo'")
+        end
+        @adapter = string
       end
       
       def key(path)
@@ -42,7 +56,9 @@ module Passport
       end
       
       def token(key)
-        raise "can't find key '#{key.to_s}' in Passport.config" unless Passport.include?(key) and !key.to_s.empty?
+        unless Passport.include?(key) and !key.to_s.empty?
+          raise SettingsError.new("can't find key '#{key.to_s}' in Passport.config" )
+        end
         "#{key.to_s.camelcase}Token".constantize
       end
       

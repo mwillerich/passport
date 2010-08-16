@@ -2,11 +2,11 @@
 
 > Oauth and OpenId made Dead Simple.
 
-Note: This is a refactoring and abstraction of [AuthlogicConnect](http://github.com/viatropos/authlogic-connect) and it is not complete yet.  The goal is to make it as low level as possible while still making it extremely simple to setup.  It will abstract away all Oauth/OpenID complexities and be pluggable into any existing authentication framework.
+Note: This is a refactoring and abstraction of [AuthlogicConnect](http://github.com/viatropos/authlogic-connect) and it is not yet complete.  The goal is to make it as low level as possible while still making it extremely simple to setup.  It will abstract away all Oauth/OpenID complexities and be pluggable into any existing authentication framework.
 
 Passport is your single interface to Oauth 1.0, Oauth 2.0, and OpenID.
 
-Allow your users to login with Github, Facebook, Twitter, Google, LinkedIn, MySpace, Vimeo, and Yahoo Oauth providers ([complete list](http://github.com/viatropos/passport/lib/passport/oauth/tokens)), and all the OpenID providers.  Simple, Clean, Fast.
+Allow your users to login with Github, Facebook, Twitter, Google, LinkedIn, MySpace, Vimeo, and Yahoo Oauth providers ([complete list](https://github.com/viatropos/passport/tree/master/lib/passport/oauth/tokens)), and all the OpenID providers.  Simple, Clean, Fast.
 
 ## Usage
 
@@ -80,7 +80,7 @@ By default, if an `adapter` is not specified, `AccessToken` will be a plain-old 
 
 ### ActiveRecord
 
-If you want to use this with ActiveRecord, you have to setup migrations.  Check out the [Rails 3 AuthlogicConnect example](http://github.com/viatropos/authlogic-connect-example) for an authlogic example with user/session/access_token migrations.  The migrations table we have been using so far look like this:
+If you want to use this with ActiveRecord, setting up migrations is easy.  Check out the [Rails 3 AuthlogicConnect example](http://github.com/viatropos/authlogic-connect-example) for an authlogic example with user/session/access_token migrations.  The migrations table we have been using so far look like this:
 
     class CreateAccessTokens < ActiveRecord::Migration
       def self.up
@@ -107,7 +107,7 @@ If you want to use this with ActiveRecord, you have to setup migrations.  Check 
 MongoDB doesn't require any migrations so it's a simple setup.  Just specify the mongo adapter in `config/passport.yml`:
 
     adapter: mongo
-    
+
 ## API
 
 There's a lot of functionality packed into Passport.  All you need to know is that every service out there (Facebook, Twitter, Github, Foursquare, etc.) is treated as a `Token`.  The `OauthToken` (most of this is Oauth right now) has these key methods and attributes:
@@ -143,7 +143,38 @@ This also means that if you wanted to do your own oauth setup, with or without a
       access_hash    = FacebookToken.access(authorize_hash)
       # boom, you have the access token (token, key, and secret), now go exploring
     end
-    
+
+### Architecture
+
+You can accomplish everything oauth in Passport without using a server.  All you need to call are those two methods: `Token.authorize` and `Token.access`.
+
+If you want to use a server (Sinatra, Rails, etc.), then Passport uses [Rack](http://github.com/chneukirchen/rack).  It keeps track of the state of the handshake using the `Rack::Session`.
+
+### Extending
+
+You can easily add your own services to Passport by creating a `OauthToken` subclass.  This is the `FacebookToken` example:
+
+    class FacebookToken < OauthToken
+  
+      version 2.0
+  
+      key do |access_token|
+        user = JSON.parse(access_token.get("/me"))
+        user["id"]
+      end
+  
+      settings "https://graph.facebook.com",
+        :authorize_url => "https://graph.facebook.com/oauth/authorize",
+        :scope         => "email, offline_access"
+  
+    end
+  
+There are 3 executable class methods that define the API to the Oauth provider:
+
+1. `version`: defaults to `1.0`, can also be `2.0`
+2. `key`: a `block` or symbol that results in something that uniquely identifies the user (e.g `email`, or a service-specific `id`)
+3. `settings`: the service domain, and a hash of the oauth urls and scopes
+
 ## Lists of known providers
 
 - [Oauth Providers](http://wiki.oauth.net/ServiceProviders)
