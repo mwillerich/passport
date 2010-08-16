@@ -30,7 +30,7 @@ get "/signup" do
   end
   @user = User.new(params[:user])
   @user.save do |result|
-    puts "save... #{result}"
+    #puts "save... #{result}"
   end
 end
 

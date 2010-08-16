@@ -1,5 +1,7 @@
-require "rubygems"
-require 'active_record'
+require 'rubygems'
+require 'active_support'
+require 'rack'
+require 'json'
 require 'oauth'
 require 'oauth2'
 
@@ -16,7 +18,8 @@ require "#{core}/certification"
 require "#{core}/user"
 require "#{core}/mixin"
 require "#{core}/filter"
+require "#{core}/installation"
 # require "#{library}/openid"
 require "#{library}/passport"
 
-Passport.root = this
+Passport.root = "#{this}/.."

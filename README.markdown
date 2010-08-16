@@ -146,13 +146,13 @@ This also means that if you wanted to do your own oauth setup, with or without a
 
 ### Architecture
 
-You can accomplish everything oauth in Passport without using a server.  All you need to call are those two methods: `Token.authorize` and `Token.access`.
+You can accomplish everything oauth in Passport without using a server.  All you need to do is call these two methods: `Token.authorize` and `Token.access`.
 
 If you want to use a server (Sinatra, Rails, etc.), then Passport uses [Rack](http://github.com/chneukirchen/rack).  It keeps track of the state of the handshake using the `Rack::Session`.
 
 ### Extending
 
-You can easily add your own services to Passport by creating a `OauthToken` subclass.  This is the `FacebookToken` example:
+You can easily add your own services to Passport by creating an `OauthToken` subclass.  This is the `FacebookToken` example:
 
     class FacebookToken < OauthToken
   

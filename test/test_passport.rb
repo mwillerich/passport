@@ -14,11 +14,6 @@ module Passport
         assert_equal "user", Passport.authentication_type
       end
       
-      should "be able to clear the authentication_type" do
-        Passport.clear
-        assert_equal nil, Passport.authentication_type
-      end
-      
       teardown do
         Passport.clear
       end

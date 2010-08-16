@@ -60,7 +60,7 @@ module Passport
           :auth_attributes,
           :oauth_provider,
           :auth_callback_method
-        ].each { |key| session.delete(key) }
+        ].each { |key| Rack::Context.delete_session_key(key) }
       end
     end
     
