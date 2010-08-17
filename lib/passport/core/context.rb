@@ -29,6 +29,7 @@ module Passport
         if controller = Thread.current[:rails_context]
           controller.redirect_to(url)
         else
+          puts "REDIRECT #{url}"
           response = Rack::Response.new
           response.redirect(url)
           response.finish
@@ -57,6 +58,7 @@ module Passport
       def debug
         puts "=== BEGIN DEBUG ==="
         puts "Passport.process? #{Passport.process?}"
+        puts "Passport.approve? #{Passport.approve?}"
         puts "Passport::Oauth::Protocol.request? #{Passport::Oauth::Protocol.request?.inspect}"
         puts "Passport::Oauth::Protocol.params? #{Passport::Oauth::Protocol.params?.inspect}"
         puts "Passport::Oauth::Protocol.provider? #{Passport::Oauth::Protocol.provider?.inspect}"

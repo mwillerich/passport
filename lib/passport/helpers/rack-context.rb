@@ -63,6 +63,7 @@ module Rack
       end
       
       def delete_session_key(key)
+        return if session.blank?
         keys = key.is_a?(Symbol) ? [key, key.to_s] : [key, key.to_sym]
         keys.each { |k| session.delete(k) }
       end

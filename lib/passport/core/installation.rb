@@ -26,15 +26,6 @@ module Passport
           end
         end
         
-        # Rails 3beta4 backport
-        if defined?(ActiveSupport::HashWithIndifferentAccess)
-          ActiveSupport::HashWithIndifferentAccess.class_eval do
-            def symbolize_keys!
-              symbolize_keys
-            end
-          end
-        end
-        
         if defined?(ActionController::Base)
           ActionController::Base.helper(Passport::Oauth::ViewHelper)
         end

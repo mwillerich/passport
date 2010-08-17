@@ -12,4 +12,4 @@ module Passport
   end
 end
 
-ActiveRecord::Base.send(:include, Passport::Mixin)
+ActiveRecord::Base.send(:include, Passport::Mixin) if defined?(ActiveRecord::Base)

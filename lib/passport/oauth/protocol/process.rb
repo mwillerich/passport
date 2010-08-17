@@ -7,18 +7,18 @@ module Passport
       end
       
       module ClassMethods
-        def process(record)
+        def process(record = nil)
           authorize_hash = token_class.authorize(callback_url)
           
           session[:oauth_request_token]        = authorize_hash[:token]
           session[:oauth_request_token_secret] = authorize_hash[:secret]
-          session[:auth_request_class]         = record.class.name
+          session[:auth_request_class]         = record.class.name if record
           session[:authentication_type]        = params["authentication_type"]
           session[:oauth_provider]             = params["oauth_provider"]
           session[:auth_method]                = "oauth"
           session[:auth_callback_method]       = "post"# controller.request.method
 
-          store(record)
+          store(record) if record
           
           redirect authorize_hash[:url]
         end
@@ -26,8 +26,8 @@ module Passport
         
         def approve(record)
           return nil if !complete?
-          restore(record)
-          token = find_or_create_token(record)
+          restore(record) if record
+          token = find_or_create_token
           clear
           token
         end

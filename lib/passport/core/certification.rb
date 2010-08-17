@@ -10,7 +10,7 @@ module Passport
       end
       alias start? process?
     
-      def process(user)
+      def process(user = nil)
         protocol.process(user) if protocol
       end
       alias start process
@@ -20,12 +20,12 @@ module Passport
       end
       alias complete? approve?
       
-      def approve(user)
+      def approve(user = nil)
         protocol.approve(user) if protocol
       end
       alias complete approve
       
-      def authenticate(user, &block)
+      def authenticate(user = nil, &block)
         if process?
           process(user) # redirect to service
         elsif approve?

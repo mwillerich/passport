@@ -64,3 +64,22 @@ if defined?(ActionController::Base)
     end
   end
 end
+
+# Rails 3beta4 backport
+if defined?(ActiveSupport::HashWithIndifferentAccess)
+  ActiveSupport::HashWithIndifferentAccess.class_eval do
+    unless respond_to?(:symbolize_keys!)
+      def symbolize_keys!
+        symbolize_keys
+      end
+    end
+  end
+end
+
+Object.class_eval do
+  unless respond_to?(:symbolize_keys!)
+    def symbolize_keys!
+      symbolize_keys
+    end
+  end
+end
