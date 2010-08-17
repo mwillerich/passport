@@ -15,7 +15,7 @@ module Passport
             :oauth_verifier => verifier,
             :callback_url   => callback_url
           )
-          token = token_class.find_by_key_or_token(hash[:key], hash[:token], record)
+          token = token_class.find_by_key_or_token(hash[:key], hash[:token])
           token ||= token_class.new(hash)
           token
         end

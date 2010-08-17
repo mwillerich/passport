@@ -136,7 +136,7 @@ module Passport
           
           assert_equal "User", Rack::Context.session_key(:auth_request_class)
           assert_equal "oauth", Rack::Context.session_key(:auth_method)
-          assert_equal "create", Rack::Context.session_key(:auth_callback_method)
+          assert_equal "post", Rack::Context.session_key(:auth_callback_method)
         end
         
         should "store user attributes into session" do
