@@ -33,6 +33,7 @@ module Passport
         
         # get the access token
         def access(options)
+          puts "ACCESS #{options.inspect}"
           if version == 1.0
             access_token = OAuth::RequestToken.new(consumer, options[:token], options[:secret]).get_access_token(:oauth_verifier => options[:oauth_verifier])
             result = {:token => access_token.token.to_s, :secret => access_token.secret.to_s}
@@ -47,7 +48,7 @@ module Passport
         end
         
         def credentials
-          @credentials ||= Passport.credentials(service_name)
+          @credentials ||= Passport.credentials(service)
         end
       end
       

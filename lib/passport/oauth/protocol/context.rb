@@ -12,8 +12,12 @@ module Passport
           find(:oauth_provider)
         end
         
-        def token_class
-          Passport.token(provider)
+        def token_class(throw_error = true)
+          Passport.token(provider, throw_error)
+        end
+        
+        def token_class?
+          token_class(false).blank?
         end
         
         # the token from the response parameters
@@ -36,7 +40,7 @@ module Passport
         end
 
         def verifier
-          params_key(:verifier)
+          params_key(:oauth_verifier)
         end
 
         # the version of oauth we're using.  Accessed from the OauthToken subclass
@@ -50,7 +54,8 @@ module Passport
         end
         
         def callback_url(options = {})
-          "http://localhost:4567"
+          #"http://localhost:4567"
+          Rack::Context.request.url.split("?").first
         end
         
         def inspect

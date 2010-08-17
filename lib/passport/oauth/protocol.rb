@@ -2,6 +2,7 @@ module Passport
   module Oauth
     class Protocol
       include Passport::Context
+      include Passport::State
       include Passport::Oauth::Context
       include Passport::Oauth::State
       include Passport::Oauth::Record

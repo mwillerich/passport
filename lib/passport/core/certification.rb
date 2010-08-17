@@ -25,13 +25,13 @@ module Passport
       end
       alias complete approve
       
-      def authenticate(user)
+      def authenticate(user, &block)
         if process?
           process(user) # redirect to service
         elsif approve?
-          approve(user)
-        else
-          nil
+          token = approve(user)
+          yield(token) if block_given?
+          token
         end
       end
       

@@ -16,7 +16,7 @@ module Passport
           session[:authentication_type]        = params["authentication_type"]
           session[:oauth_provider]             = params["oauth_provider"]
           session[:auth_method]                = "oauth"
-          session[:auth_callback_method]       = "create"# controller.request.method
+          session[:auth_callback_method]       = "post"# controller.request.method
 
           store(record)
           
@@ -45,7 +45,9 @@ module Passport
             :auth_callback_method,
             :oauth_request_token,
             :oauth_request_token_secret
-          ].each { |key| session.delete(key) }
+          ].each do |key|
+            Rack::Context.delete_session_key(key)
+          end
         end
       end
       

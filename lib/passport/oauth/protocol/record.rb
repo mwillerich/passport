@@ -9,13 +9,15 @@ module Passport
       module ClassMethods
         # this gives you the final key and secret that we will store in the database
         def find_or_create_token(record)
-          token_class.find_or_create_from_protocol(
-            record,
+          hash = token_class.access(
             :token          => request_token,
             :secret         => request_secret,
-            :verifier       => verifier,
+            :oauth_verifier => verifier,
             :callback_url   => callback_url
           )
+          token = token_class.find_by_key_or_token(hash[:key], hash[:token], record)
+          token ||= token_class.new(hash)
+          token
         end
         
         def store(record)

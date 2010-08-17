@@ -1,6 +1,8 @@
 # http://github.com/manveru/innate/blob/master/lib/innate/current.rb
 module Passport
   class Filter
+    METHODS = %w(get head put post delete options)
+    
     def initialize(app)
       @app = app
     end
@@ -13,9 +15,13 @@ module Passport
       if env["rack.session"].nil?
         raise "Make sure you are setting the session in Rack too!  Place this in config/application.rb"
       end
+      
       unless env["rack.session"][:auth_callback_method].blank?
-        env["REQUEST_METHOD"] = env["rack.session"].delete(:auth_callback_method).to_s.upcase
+        method = env["rack.session"].delete(:auth_callback_method).to_s.downcase
+        method = "get" unless METHODS.include?(method)
+        env["REQUEST_METHOD"] = method.upcase
       end
+      
       @app.call(env)
     end
   end

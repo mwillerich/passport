@@ -8,8 +8,8 @@ module Passport
       
       module ClassMethods
       
-        def service_name
-          @service_name ||= self.to_s.underscore.scan(/^(.*?)(_token)?$/)[0][0].to_s
+        def service
+          @service ||= self.to_s.underscore.scan(/^(.*?)(_token)?$/)[0][0].to_s
         end
         
         # oauth version, 1.0 or 2.0, should be a float b/c we may encounter 1.1 for example.
@@ -51,7 +51,7 @@ module Passport
               return (access_token.params[key.to_s] || access_token.params[key.to_sym]) # try both
             end
           else
-            raise "please set an oauth key for #{service_name.to_s}"
+            raise "please set an oauth key for #{service.to_s}"
           end
         end
       end
@@ -71,6 +71,10 @@ module Passport
         
         def identify
           self.class.identify(access_token)
+        end
+        
+        def service
+          self.class.service
         end
       end
     end

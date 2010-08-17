@@ -13,21 +13,19 @@ module Passport
         require "#{root}/lib/passport/support/#{adapter}"
         require "#{root}/lib/passport/oauth"
         
-        if defined?(Rails)
-          require "#{core}/engine" if Rails::VERSION::MAJOR == 3
-          
-          custom_models = []#["#{root}/oauth/access_token"] + Dir["#{library}/oauth/tokens"]
+        if defined?(Rails)          
+          custom_models = ["#{root}/lib/passport/support/#{adapter}"] + Dir["#{root}/lib/passport/oauth/tokens"]
           #custom_models +=  Dir["#{library}/openid/tokens"]
-
+          
           # Rails 3/2 config
           load_path_method = ActiveSupport::Dependencies.respond_to?(:autoload_paths) ? :autoload_paths : :load_paths
-
+          
           custom_models.each do |path|
             $LOAD_PATH << path
             ActiveSupport::Dependencies.send(load_path_method) << path
           end
         end
-
+        
         # Rails 3beta4 backport
         if defined?(ActiveSupport::HashWithIndifferentAccess)
           ActiveSupport::HashWithIndifferentAccess.class_eval do
@@ -35,6 +33,13 @@ module Passport
               symbolize_keys
             end
           end
+        end
+        
+        if defined?(ActionController::Base)
+          ActionController::Base.helper(Passport::Oauth::ViewHelper)
+        end
+        if defined?(ActionView::Helpers::FormBuilder)
+          ActionView::Helpers::FormBuilder.send(:include, Passport::Oauth::ViewHelper)
         end
         
         installed = true

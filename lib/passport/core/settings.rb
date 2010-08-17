@@ -13,6 +13,10 @@ module Passport
       
       def configure(value)
         self.config = (value.is_a?(String) ? YAML.load_file(value) : value).recursively_symbolize_keys!
+        if self.config.has_key?(:connect)
+          self.config[:services] = self.config.delete(:connect)
+          puts "[Deprecation] change 'connect' to 'services' in Passport configuration"
+        end
         self.config[:adapter] ||= "object"
         self.adapter = config[:adapter]
         
@@ -55,11 +59,12 @@ module Passport
         !credentials(service).nil?
       end
       
-      def token(key)
+      def token(key, throw_error = true)
         unless Passport.include?(key) and !key.to_s.empty?
-          raise SettingsError.new("can't find key '#{key.to_s}' in Passport.config" )
+          raise SettingsError.new("can't find key '#{key.to_s}' in Passport.config" ) if throw_error
+        else
+          "#{key.to_s.camelcase}Token".constantize
         end
-        "#{key.to_s.camelcase}Token".constantize
       end
       
       def consumer(key)

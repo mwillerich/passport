@@ -13,12 +13,20 @@ module Passport
         alias start? request?
         
         def response?
-          params? && session? && !token.blank?
+          params? && session? && token?
         end
         alias complete? response?
-
+        
         def active?
           request? || response?
+        end
+        
+        def params?
+          super && key?(:oauth_provider)
+        end
+        
+        def token?
+          provider? && !token.blank?
         end
         
         def provider?

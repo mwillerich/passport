@@ -7,18 +7,13 @@ require 'oauth2'
 
 this = File.expand_path(File.dirname(__FILE__))
 library = "#{this}/passport"
-core = "#{library}/core"
+
+Dir["#{library}/helpers/*"].each { |file| require file }
+Dir["#{library}/core/*"].each { |file| require file }
 
 require "#{library}/openid/protocol"
-require "#{core}/rack-context"
-require "#{core}/ext"
-require "#{core}/settings"
-require "#{core}/context"
-require "#{core}/certification"
-require "#{core}/user"
-require "#{core}/mixin"
-require "#{core}/filter"
-require "#{core}/installation"
+require "#{library}/engine" if defined?(Rails) && Rails::VERSION::MAJOR == 3
+
 # require "#{library}/openid"
 require "#{library}/passport"
 

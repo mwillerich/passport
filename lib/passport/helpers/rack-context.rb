@@ -30,6 +30,10 @@ module Rack
         params_key(key) || session_key(key)
       end
       
+      def key?(key)
+        !find(key).blank?
+      end
+      
       def session_key(key)
         return nil if session.blank?
         string = key.to_s
@@ -38,12 +42,20 @@ module Rack
         return session[symbol] unless session[symbol].blank?
       end
       
+      def session_key?(key)
+        !session_key(key).blank?
+      end
+      
       def params_key(key)
         return nil if params.blank?
         string = key.to_s
         symbol = key.to_sym
         return params[string] unless params[string].blank?
         return params[symbol] unless params[symbol].blank?
+      end
+      
+      def params_key?(key)
+        !params_key(key).blank?
       end
       
       def find_pair(attribute)

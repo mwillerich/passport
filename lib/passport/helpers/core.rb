@@ -54,3 +54,13 @@ class Array
     end
   end
 end
+
+if defined?(ActionController::Base)
+  ActionController::Base.class_eval do
+    prepend_before_filter :set_rails_context
+    
+    def set_rails_context
+      Thread.current[:rails_context] = self
+    end
+  end
+end
